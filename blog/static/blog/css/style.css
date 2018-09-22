@@ -35,7 +35,7 @@ label{
 /*-----start-header----*/
 .header{
 	padding:8em 0;
-	background: #ff5928;
+	background:#ff6f69;
 }
 .top-menu {
 	text-align: right;
@@ -63,7 +63,7 @@ label{
 .header-right {
 	text-align: center;	
 }
-.down{
+.downs{
 	margin:3em 0;
 }
 .app img:hover{
@@ -725,9 +725,6 @@ h6.b-animate.b-from-left.b-delay03 {
 	.contact_desc h2 {
 		margin: 0 0 17px 0px;
 	}
-	.down img {
-		width: 33%;
-	}
 }
 @media screen and (max-width: 1366px) {
 	.header {
@@ -748,11 +745,11 @@ h6.b-animate.b-from-left.b-delay03 {
 	.header-main {
 		margin-top: 6em;
 	}
-	.down img {
+	.downs img {
 		width: 33%;
 	}
-	.down {
-		margin: 3.5em 0;
+	.downs {
+		margin: 4em 0;
 	}
 	.features-section {
 		padding: 3em 0;
@@ -809,7 +806,7 @@ h6.b-animate.b-from-left.b-delay03 {
 	.logo img {
 		width: 77%;
 	}
-	.down {
+	.downs {
 		margin: 3.5em 0;
 	}
 	.appstore img {
@@ -901,7 +898,7 @@ h6.b-animate.b-from-left.b-delay03 {
 	.header-main {
 		margin-top: 4em;
 	}
-	.down {
+	.downs {
 		margin: 2.5em 0;
 	}
 	.header-right img {	
@@ -1019,10 +1016,10 @@ h6.b-animate.b-from-left.b-delay03 {
 	.header-main {
 		margin-top: 3em;
 	}
-	.down {
+	.downs {
 		margin: 2em 0;
 	}
-	.down img {
+	.downs img {
 		width: 30%;
 	}
 	.logo img {
@@ -1153,10 +1150,10 @@ h6.b-animate.b-from-left.b-delay03 {
 	.logo img {
 		width: 95%;
 	}
-	.down img {
+	.downs img {
 		width: 35%;
 	}
-	.down {
+	.downs {
 		margin: 1.3em 0;
 	}
 	.appstore img {
@@ -1428,7 +1425,7 @@ h6.b-animate.b-from-left.b-delay03 {
 	.header-left {
 		padding: 0;
 	}
-	.down {
+	.downs {
 		margin: 1em 0;
 	}
 	.appstore img {
