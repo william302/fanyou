@@ -4,13 +4,6 @@ from django import forms;
 from django.core.exceptions import ValidationError
 
 
-def mobile_validate(value):
-    phone_pat = re.compile('^(13\d|14[5|7]|15\d|166|17\d|18\d)\d{8}$')
-    res = re.search(phone_pat, value)
-    if not res:
-        raise ValidationError('手机号码格式错误', code='invalid')
-
-
 class SignupForm(forms.Form):
     phone = forms.CharField(label='手机号', max_length=11, error_messages={'required': "手机号不能为空"})
     verification_code = forms.CharField(label='验证码', max_length=6, error_messages={'required': "验证码不能为空"})

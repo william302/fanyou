@@ -94,11 +94,11 @@ WSGI_APPLICATION = 'fanyou.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test1',
-        'USER': 'dev',
-        'PASSWORD': 'FANyou123',
-        'HOST': 'rm-bp116f38t1sr6a0krro.mysql.rds.aliyuncs.com',
-        'PORT': '3306',
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
+        'PORT': config('DATABASE_PORT', cast=int),
     }
 }
 

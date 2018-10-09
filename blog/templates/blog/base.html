@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<title>91租机</title>
+{#<link href="{% static 'blog/css/bootstrap.css' %}" rel='stylesheet' type='text/css' />#}
+<link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom Theme files -->
+<link href="{% static 'blog/css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="{% static 'blog/css/touchTouch.css' %}" type="text/css" media="all" />
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Techandall Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!--webfont-->
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'blog/images/favicon-32x32.png' %}">
+{#<link href='http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>#}
+{% block head %}
+{% endblock %}
+</head>
+<body>
+
+    {% block content %}
+    {% endblock %}
+
+	<div class="footer" id="footer">
+		<div class="container">
+			<div class="col-md-6 footer-right">
+				<h4>扫码关注微信公众号</h4>
+				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also</p>
+				<p>the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset</p>
+				<div class="address">
+					<p>地址 : 杭州市拱墅区萍水街333号御峰大厦1922</p>
+					<p>联系电话 : 0571-86507022</p>
+					<p>邮箱 : yuxiang@fanyoutech.com</p>
+				</div>
+				<div class="copyrights">
+{#					<p>Copyright &copy; 2015.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>#}
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+    <script src="{% static 'blog/js/touchTouch.jquery.js' %}"></script>
+    <script src="{% static 'blog/js/jquery.ui.totop.js' %}"></script>
+    <script src="{% static 'blog/js/jquery.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'blog/js/move-top.js' %}"></script>
+    <script type="text/javascript" src="{% static 'blog/js/easing.js' %}"></script>
+    {% block javascript %}
+    {% endblock %}
+</body>
+</html>

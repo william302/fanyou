@@ -20,15 +20,16 @@ def index(request):
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
-
         if form.is_valid():
             dealer_id = request.session.get('dealer_id', None)
             # if dealer_id == 'None':
             #     dealer_id = None
             phone = form.cleaned_data['phone']
             verify_code = form.cleaned_data['verification_code']
+
             session_verify_code = request.session.get('verify_code', None)
-            print(verify_code)
+            print(request.session.get_expiry_age())
+            print(dealer_id)
             print(session_verify_code)
             if verify_code == session_verify_code:
                 row = find_user(phone)
@@ -60,8 +61,10 @@ def send_verify_code(request):
     sms_code = "%06d" % random.randint(0, 999999)
     content = '同事您好，感谢您对此次测试的配合。%s' % sms_code
     time = datetime.now()
+    # 生成时间戳，格式为：月月日日时时分分秒秒
     time_stamp = time.strftime('%m%d%H%M%S')
     fixed_string = '00000000'
+    # 报文密码为：（用户名 + 固定字符串 + 密码 + 时间戳）之后用md5加密
     combine_password = userid + fixed_string + password + time_stamp
     md5_password = hashlib.md5(combine_password.encode('UTF-8')).hexdigest()
     phone = request.GET.get('phone')
@@ -86,6 +89,7 @@ def send_verify_code(request):
             print(response.text)
             data['success_message'] = '已发送'
             request.session['verify_code'] = sms_code
+            request.session.set_expiry(60*60)
             return JsonResponse(data)
         else:
             # Error handling code...
