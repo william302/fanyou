@@ -6,7 +6,7 @@ from urllib import parse
 from datetime import datetime
 from .sql import find_user, update_user, insert_user
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from http import client
 from .forms import SignupForm
 import requests
@@ -32,15 +32,22 @@ def signup(request):
             print(dealer_id)
             print(session_verify_code)
             if verify_code == session_verify_code:
+                try:
+                    del request.session['verify_code']
+                except KeyError:
+                    pass
                 row = find_user(phone)
                 if row:
                     if dealer_id is None:
-                        return HttpResponse('no change')
+                        message = "恭喜你！注册成功"
+                        return redirect('signup_success')
                     update_user(phone, dealer_id)
-                    return HttpResponse('update')
+                    message = "恭喜你！更新成功"
+                    return redirect('signup_success')
                 else:
                     insert_user(phone, dealer_id)
-                    return HttpResponse('insert')
+                    message = "恭喜你！注册成功"
+                    return redirect('signup_success')
             else:
                 error = "验证码错误"
                 return render(request, 'blog/signup.html', {'form': form,
@@ -55,6 +62,7 @@ def signup(request):
 
 def send_verify_code(request):
     data = {}
+    # send_flag = False
     send_url = 'http://TSC3.800CT.COM:8086/sms/v2/std/single_send'
     userid = 'J23394'
     password = '546213'
@@ -72,6 +80,10 @@ def send_verify_code(request):
     phone_pat = re.compile('^(13\d|14[5|7]|15\d|166|17\d|18\d)\d{8}$')
     res = re.search(phone_pat, phone)
     if res:
+        # send_flag = ((datetime.now()-time).seconds < 60)
+        # if send_flag:
+        #     data['error_message'] = '60秒后才能重新发送'
+        #     return JsonResponse(data)
         query ={
             'userid': userid,
             'pwd': md5_password,
@@ -84,6 +96,7 @@ def send_verify_code(request):
 
         headers = {"Content-type": "application/json"}
         response = requests.post(send_url, data=json_query, headers=headers)
+        # send_flag = True
         if response.status_code == 200:
             print("Sent! The API responded:")
             print(response.text)
@@ -101,3 +114,5 @@ def send_verify_code(request):
     return JsonResponse(data)
 
 
+def signup_success(request):
+    return render(request, 'blog/signup_success.html')
