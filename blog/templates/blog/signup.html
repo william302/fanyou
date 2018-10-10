@@ -20,11 +20,11 @@
                               <div class="controls">
                                 <p class="help-block"><strong>{{ error }}</strong></p>
                               </div>
-                              <input type="button" id="forcode" value="获取验证码" class="btn btn-danger">
+                              <input type="button" id="forcode" value="获取验证码" class="btn btn-danger float-right md-4">
                               {% if redirect_field_value %}
                               <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                               {% endif %}
-                              <button class="btn btn-success btn-block" type="submit" id="signup">注册 &raquo;</button>
+                              <button class="btn btn-success btn-block mt-4" type="submit" id="signup">注册 &raquo;</button>
                             </form>
                         </div>
                     </div>
