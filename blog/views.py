@@ -3,7 +3,7 @@ import random
 import re
 import json
 from urllib import parse
-from datetime import datetime
+import datetime
 from .sql import find_user, update_user, insert_user
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -62,15 +62,21 @@ def signup(request):
 
 def send_verify_code(request):
     data = {}
-    # send_flag = False
+    current_time = int(datetime.datetime.now().strftime('%y%m%d%H%M%S'))
+    interval_time = current_time - request.session.get('time', 171011091632)
+    send_flag = interval_time < 60
+    if send_flag:
+        data['error_message'] = "重新发送需要%ds时间" % (60-interval_time)
+        return JsonResponse(data)
     send_url = 'http://TSC3.800CT.COM:8086/sms/v2/std/single_send'
     userid = 'J23394'
     password = '546213'
     sms_code = "%06d" % random.randint(0, 999999)
     content = '同事您好，感谢您对此次测试的配合。%s' % sms_code
-    time = datetime.now()
+    time = datetime.datetime.now()
     # 生成时间戳，格式为：月月日日时时分分秒秒
     time_stamp = time.strftime('%m%d%H%M%S')
+    session_time_stamp = int(time.strftime('%y%m%d%H%M%S'))
     fixed_string = '00000000'
     # 报文密码为：（用户名 + 固定字符串 + 密码 + 时间戳）之后用md5加密
     combine_password = userid + fixed_string + password + time_stamp
@@ -80,10 +86,6 @@ def send_verify_code(request):
     phone_pat = re.compile('^(13\d|14[5|7]|15\d|166|17\d|18\d)\d{8}$')
     res = re.search(phone_pat, phone)
     if res:
-        # send_flag = ((datetime.now()-time).seconds < 60)
-        # if send_flag:
-        #     data['error_message'] = '60秒后才能重新发送'
-        #     return JsonResponse(data)
         query ={
             'userid': userid,
             'pwd': md5_password,
@@ -96,13 +98,13 @@ def send_verify_code(request):
 
         headers = {"Content-type": "application/json"}
         response = requests.post(send_url, data=json_query, headers=headers)
-        # send_flag = True
         if response.status_code == 200:
             print("Sent! The API responded:")
             print(response.text)
             data['success_message'] = '已发送'
             request.session['verify_code'] = sms_code
             request.session.set_expiry(60*60)
+            request.session['time'] = session_time_stamp
             return JsonResponse(data)
         else:
             # Error handling code...
