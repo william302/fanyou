@@ -2,18 +2,22 @@ import hashlib
 import random
 import re
 import json
+import qrcode
 from urllib import parse
 import datetime
-from .sql import find_user, update_user, insert_user
+from .sql import find_user, update_user, insert_user, find_merchant_user
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
-from http import client
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignupForm
 import requests
+from .models import Merchant
 # Create your views here.
 
 
 def index(request):
+    # rows = find_merchant_user()
+    # print(rows)
+    # print(type(rows))
     return render(request, 'blog/index.html')
 
 
@@ -68,9 +72,9 @@ def send_verify_code(request):
     if send_flag:
         data['error_message'] = "重新发送需要%ds时间" % (60-interval_time)
         return JsonResponse(data)
-    send_url = 'http://TSC3.800CT.COM:8086/sms/v2/std/single_send'
-    userid = 'J23394'
-    password = '546213'
+    send_url = 'http://175.25.18.221:8087/sms/v2/std/single_send'
+    userid = 'JA1260'
+    password = '092902'
     sms_code = "%06d" % random.randint(0, 999999)
     content = '同事您好，感谢您对此次测试的配合。%s' % sms_code
     time = datetime.datetime.now()
@@ -118,3 +122,20 @@ def send_verify_code(request):
 
 def signup_success(request):
     return render(request, 'blog/signup_success.html')
+
+
+def merchants(request):
+    merchants_list = Merchant.objects.order_by('name')
+    context = {'merchants_list': merchants_list}
+    return render(request, 'blog/merchants.html', context)
+
+
+def merchant_detail(request, merchant_id):
+    merchant = get_object_or_404(Merchant, pk=merchant_id)
+    rows = find_merchant_user(merchant_id)
+    # url = 'http://47.98.40.106/signup?dealer=%d' % merchant_id
+    # img = qrcode.make(url)
+    context = {'merchant': merchant,
+               'rows': rows,
+               }
+    return render(request, 'blog/merchant_detail.html', context)

@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <ol class="breadcrumb my-4">
+          <li class="breadcrumb-item active">{{ merchant.name }}的用户</li>
+        </ol>
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>用户ID</th>
+        <th>用户电话</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>
+            {{ row.0 }}
+          </td>
+          <td class="align-middle">
+            {{ row.1 }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+    </div>
+{% endblock %}

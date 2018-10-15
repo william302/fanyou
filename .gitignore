@@ -113,3 +113,6 @@ dmypy.json
 
 # fabric
 fabfile.py
+
+# media
+media/

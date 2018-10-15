@@ -26,3 +26,12 @@ def update_user(phone, dealer_id):
         cursor.execute(sql, args)
         connection.commit()
     return
+
+
+def find_merchant_user(dealer_id):
+    sql = "select u.id, u.phone from blog_merchant as m inner join users as u on u.dealer_id = m.id where m.id = %s"
+    args = (dealer_id,)
+    with connection.cursor() as cursor:
+        cursor.execute(sql, args)
+        rows = cursor.fetchall()
+    return rows
