@@ -1,18 +1,24 @@
 import oss2
+import qrcode
+from decouple import config
+from django.conf import settings
+
+access_key = config('ALIYUN_ACCESS_KEY')
+access_key_secret = config('ALIYUN_ACCESS_SECRET')
 
 
-# print(result.__str__())
-# print('http status: {0}'.format(result.status))
-# print('request_id: {0}'.format(result.request_id))
-# print('ETag: {0}'.format(result.etag))
-# print('date: {0}'.format(result.headers['date']))
-
-def business_license_upload(instance, filename):
-    auth = oss2.Auth('LTAIbnw6ov01skHL', 'Ya2aclHY1GrRwgy07HdFqGK75H4Hqe')
+def qrcode_upload(merchant_id):
+    auth = oss2.Auth(access_key, access_key_secret)
     bucket = oss2.Bucket(auth, 'http://oss-cn-beijing.aliyuncs.com', 'rent-mall', connect_timeout=30)
-    object_name = 'merchants/%s' % filename
-    result = bucket.put_object_from_file(object_name, instance)
+    url = 'http://47.98.40.106/signup?dealer=%s' % merchant_id
+    img = qrcode.make(url)
+    image_path = settings.MEDIA_ROOT + '/qrcode/%s.png' % merchant_id
+    img.save(image_path)
+
+    object_name = 'merchants/qrcode/%s.png' % merchant_id
+    result = bucket.put_object_from_file(object_name, image_path)
+    aliyun_url = 'https://rent-mall.oss-cn-beijing.aliyuncs.com/merchants/qrcode/%s.png' % merchant_id
     print('http status: {0}'.format(result.status))
     print('request_id: {0}'.format(result.request_id))
-    print('ETag: {0}'.format(result.etag))
-    print('date: {0}'.format(result.headers['date']))
+
+    return aliyun_url

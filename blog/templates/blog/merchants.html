@@ -12,6 +12,8 @@
         <th>商户地址</th>
         <th>老板姓名</th>
         <th>电话</th>
+        <th>二维码链接</th>
+          <th>佣金比例</th>
       </tr>
     </thead>
     <tbody>
@@ -28,6 +30,12 @@
           </td>
           <td class="align-middle">
               {{ merchant.phone_number }}
+          </td>
+          <td class="align-middle">
+              <a href="{{ merchant.qrcode }}">{{ merchant.name }}的二维码</a>
+          </td>
+          <td class="align-middle">
+              {{ merchant.commission_rate }}%
           </td>
         </tr>
       {% endfor %}

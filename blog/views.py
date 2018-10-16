@@ -76,7 +76,7 @@ def send_verify_code(request):
     userid = 'JA1260'
     password = '092902'
     sms_code = "%06d" % random.randint(0, 999999)
-    content = '同事您好，感谢您对此次测试的配合。%s' % sms_code
+    content = '感谢注册91租机，验证码打死不要告诉别人哦！验证码：%s' % sms_code
     time = datetime.datetime.now()
     # 生成时间戳，格式为：月月日日时时分分秒秒
     time_stamp = time.strftime('%m%d%H%M%S')
