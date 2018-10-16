@@ -43,14 +43,11 @@ def signup(request):
                 row = find_user(phone)
                 if row:
                     if dealer_id is None:
-                        message = "恭喜你！注册成功"
                         return redirect('signup_success')
                     update_user(phone, dealer_id)
-                    message = "恭喜你！更新成功"
                     return redirect('signup_success')
                 else:
                     insert_user(phone, dealer_id)
-                    message = "恭喜你！注册成功"
                     return redirect('signup_success')
             else:
                 error = "验证码错误"

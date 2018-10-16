@@ -1,3 +1,4 @@
+import datetime
 from django.db import connection
 
 
@@ -11,8 +12,9 @@ def find_user(phone):
 
 
 def insert_user(phone, dealer_id):
-    sql = '''INSERT INTO t_user_base(mobile, merchant_id) VALUES(%s, %s)'''
-    args = [phone, dealer_id]
+    current_time = datetime.datetime.now()
+    sql = '''INSERT INTO t_user_base(mobile, merchant_id,last_login_time, add_time) VALUES(%s, %s, %s, %s)'''
+    args = [phone, dealer_id, current_time, current_time]
     with connection.cursor() as cursor:
         cursor.execute(sql, args)
         connection.commit()
