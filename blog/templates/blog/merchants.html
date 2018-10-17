@@ -8,17 +8,21 @@
   <table class="table">
     <thead class="thead-inverse">
       <tr>
+        <th>商户ID</th>
         <th>商户名</th>
         <th>商户地址</th>
         <th>老板姓名</th>
         <th>电话</th>
         <th>二维码链接</th>
-          <th>佣金比例</th>
+        <th>佣金比例</th>
       </tr>
     </thead>
     <tbody>
       {% for merchant in merchants_list %}
         <tr>
+          <td>
+            {{ merchant.id }}
+          </td>
           <td>
             <a href="{% url 'merchant_detail' merchant.id %}">{{ merchant.name }}</a>
           </td>
@@ -29,10 +33,10 @@
             {{ merchant.boss_name }}
           </td>
           <td class="align-middle">
-              {{ merchant.phone_number }}
+              {{ merchant.mobile }}
           </td>
           <td class="align-middle">
-              <a href="{{ merchant.qrcode }}">{{ merchant.name }}的二维码</a>
+              <a href="{{ merchant.qrcode }}">{{ merchant.qrcode }}</a>
           </td>
           <td class="align-middle">
               {{ merchant.commission_rate }}%

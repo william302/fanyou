@@ -32,9 +32,6 @@ def signup(request):
             verify_code = form.cleaned_data['verification_code']
 
             session_verify_code = request.session.get('verify_code', None)
-            print(request.session.get_expiry_age())
-            print(dealer_id)
-            print(session_verify_code)
             if verify_code == session_verify_code:
                 try:
                     del request.session['verify_code']
@@ -95,13 +92,10 @@ def send_verify_code(request):
             'timestamp': time_stamp,
         }
         json_query = json.dumps(query)
-        print(json_query)
 
         headers = {"Content-type": "application/json"}
         response = requests.post(send_url, data=json_query, headers=headers)
         if response.status_code == 200:
-            print("Sent! The API responded:")
-            print(response.text)
             data['success_message'] = '已发送'
             request.session['verify_code'] = sms_code
             request.session.set_expiry(60*60)
@@ -122,7 +116,7 @@ def signup_success(request):
 
 
 def merchants(request):
-    merchants_list = Merchant.objects.order_by('name')
+    merchants_list = Merchant.objects.order_by('id')
     context = {'merchants_list': merchants_list}
     return render(request, 'blog/merchants.html', context)
 

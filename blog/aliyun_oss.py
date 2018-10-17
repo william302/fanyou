@@ -15,9 +15,12 @@ def qrcode_upload(merchant_id):
     image_path = settings.MEDIA_ROOT + '/qrcode/%s.png' % merchant_id
     img.save(image_path)
 
-    object_name = 'merchants/qrcode/%s.png' % merchant_id
+    oss_path = config('ALIYUN_OSS_PATH')
+    object_name = oss_path % merchant_id
     result = bucket.put_object_from_file(object_name, image_path)
-    aliyun_url = 'https://rent-mall.oss-cn-beijing.aliyuncs.com/merchants/qrcode/%s.png' % merchant_id
+
+    http_oss_path = config('HTTP_OSS_PATH')
+    aliyun_url = http_oss_path % merchant_id
     print('http status: {0}'.format(result.status))
     print('request_id: {0}'.format(result.request_id))
 

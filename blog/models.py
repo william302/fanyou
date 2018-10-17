@@ -21,6 +21,6 @@ class Merchant(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        if self.id:
-            self.qrcode = qrcode_upload(self.id)
+        super().save()
+        self.qrcode = qrcode_upload(self.id)
         super().save()
