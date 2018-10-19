@@ -12,10 +12,12 @@ def qrcode(request):
         data = {}
         try:
             request_data = json.loads(request.body)
-            print(request_data)
-            qrcode_url = qrcode_upload(request_data['merchant_id'])
-            data['qrcode_url'] = qrcode_url
         except Exception as e:
-            data['error'] = e
+            return JsonResponse({'error': 'wrong Content_type '})
+        try:
+            qrcode_url = qrcode_upload(request_data['merchant_id'])
+        except Exception as e:
+            return JsonResponse({'error': 'merchant_id not find'})
+        data['qrcode_url'] = qrcode_url
         return JsonResponse(data)
     return JsonResponse({'error': 'wrong method'})
