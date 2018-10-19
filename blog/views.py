@@ -130,3 +130,4 @@ def merchant_detail(request, merchant_id):
                'rows': rows,
                }
     return render(request, 'blog/merchant_detail.html', context)
+

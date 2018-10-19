@@ -23,4 +23,9 @@ class Merchant(models.Model):
              update_fields=None):
         super().save()
         self.qrcode = qrcode_upload(self.id)
+        # if self.business_license and self.business_license != '':
+        #     print(self.business_license)
+        #     print(self.business_license.name)
+        #     print(self.business_license.path)
+        #     print(self.business_license.url)
         super().save()
