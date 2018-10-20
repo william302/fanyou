@@ -1,8 +1,8 @@
 import json
 from django.shortcuts import render
 from django.http import JsonResponse
-from .aliyun_oss import qrcode_upload
 from django.views.decorators.csrf import csrf_exempt
+from blog.aliyun_oss import qrcode_upload
 # Create your views here.
 
 

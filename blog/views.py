@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignupForm
 import requests
 from .models import Merchant
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -21,6 +22,7 @@ def index(request):
     return render(request, 'blog/index.html')
 
 
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
