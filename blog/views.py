@@ -2,7 +2,6 @@ import hashlib
 import random
 import re
 import json
-import qrcode
 from urllib import parse
 import datetime
 from .sql import find_user, update_user, insert_user, find_merchant_user
@@ -22,36 +21,63 @@ def index(request):
     return render(request, 'blog/index.html')
 
 
+# @csrf_exempt
+# def signup(request):
+#     if request.method == 'POST':
+#         form = SignupForm(request.POST)
+#         if form.is_valid():
+#             dealer_id = request.session.get('dealer_id', None)
+#             # if dealer_id == 'None':
+#             #     dealer_id = None
+#             phone = form.cleaned_data['phone']
+#             verify_code = form.cleaned_data['verification_code']
+#
+#             session_verify_code = request.session.get('verify_code', None)
+#             if verify_code == session_verify_code:
+#                 try:
+#                     del request.session['verify_code']
+#                 except KeyError:
+#                     pass
+#                 row = find_user(phone)
+#                 if row:
+#                     if dealer_id is None:
+#                         return redirect('signup_success')
+#                     update_user(phone, dealer_id)
+#                     return redirect('signup_success')
+#                 else:
+#                     insert_user(phone, dealer_id)
+#                     return redirect('signup_success')
+#             else:
+#                 error = "验证码错误"
+#                 return render(request, 'blog/signup.html', {'form': form,
+#                                                             'error': error})
+#     else:
+#         dealer_id = request.GET.get('dealer', None)
+#         request.session['dealer_id'] = dealer_id
+#         form = SignupForm()
+#
+#     return render(request, 'blog/signup.html', {'form': form})
+
+
 @csrf_exempt
 def signup(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = SignupForm(request.POST, request=request)
         if form.is_valid():
+            try:
+                del request.session['verify_code']
+            except KeyError:
+                pass
             dealer_id = request.session.get('dealer_id', None)
-            # if dealer_id == 'None':
-            #     dealer_id = None
             phone = form.cleaned_data['phone']
-            verify_code = form.cleaned_data['verification_code']
-
-            session_verify_code = request.session.get('verify_code', None)
-            if verify_code == session_verify_code:
-                try:
-                    del request.session['verify_code']
-                except KeyError:
-                    pass
-                row = find_user(phone)
-                if row:
-                    if dealer_id is None:
-                        return redirect('signup_success')
+            row = find_user(phone)
+            if row:
+                if dealer_id is not None:
                     update_user(phone, dealer_id)
-                    return redirect('signup_success')
-                else:
-                    insert_user(phone, dealer_id)
-                    return redirect('signup_success')
+                return redirect('signup_success')
             else:
-                error = "验证码错误"
-                return render(request, 'blog/signup.html', {'form': form,
-                                                            'error': error})
+                insert_user(phone, dealer_id)
+                return redirect('signup_success')
     else:
         dealer_id = request.GET.get('dealer', None)
         request.session['dealer_id'] = dealer_id
@@ -100,6 +126,7 @@ def send_verify_code(request):
         if response.status_code == 200:
             data['success_message'] = '已发送'
             request.session['verify_code'] = sms_code
+            request.session['phone'] = phone
             request.session.set_expiry(60*60)
             request.session['time'] = session_time_stamp
             return JsonResponse(data)
@@ -126,8 +153,6 @@ def merchants(request):
 def merchant_detail(request, merchant_id):
     merchant = get_object_or_404(Merchant, pk=merchant_id)
     rows = find_merchant_user(merchant_id)
-    # url = 'http://47.98.40.106/signup?dealer=%d' % merchant_id
-    # img = qrcode.make(url)
     context = {'merchant': merchant,
                'rows': rows,
                }

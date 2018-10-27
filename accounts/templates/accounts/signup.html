@@ -1,0 +1,25 @@
+{% extends 'accounts/accounts_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}商户注册-{{ block.super }}{% endblock %}
+
+{% block card_content %}
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">注册</h3>
+            <form method="post" novalidate>
+              {% csrf_token %}
+              {{ form|crispy }}
+{#              {% include 'includes/form.html' %}#}
+              <button type="submit" class="btn btn-primary btn-block">创建帐号</button>
+            </form>
+          </div>
+          <div class="card-footer text-muted text-center">
+            已经有帐号了? <a href="{% url 'accounts:login' %}">登录</a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

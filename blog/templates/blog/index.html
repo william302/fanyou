@@ -1,154 +1,179 @@
 {% extends 'blog/base.html' %}
-
 {% load static %}
 
 {% block content %}
-    <div class="header" id="home">
-		<div class="container">
-			<div class="top-menu">
-				<ul>
-					<li><a class="active" href="#home">主页</a></li>
-                    <li><a href="#zuji" class="scroll">我要租机</a></li>
-					<li><a href="#aboutus" class="scroll">关于我们</a></li>
-					<li><a href="#footer" class="scroll">联系我们</a></li>
-                    <li><a href="{% url 'signup' %}" class="scroll">注册</a></li>
-				</ul>
-			</div>
-			<div class="header-main row">
-                <div class="col-xs-12 col-sm-6 col-md-6 text-center">
-                    <img style="margin-bottom: 2em" src="{% static 'blog/images/91_logo.png' %}" class="img-responsive" alt="" />
-                    <div class="row text-center">
-                        <div class="col-xs-6 col-sm-6 col-md-6 mt-3.5">
-                            <img src="{% static 'blog/images/qrcode_andriod_gaitubao_com_199x199.png' %}" class="img-responsive" alt="" />
-                            <h2 style="color: white" class="text-center">Andriod</h2>
-                            <a class="btn btn-primary btn-lg" href="#" role="button">Andriod点击下载</a>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 mt-3.5">
-                            <img src="{% static 'blog/images/qrcode_andriod_gaitubao_com_199x199.png' %}" class="img-responsive" alt="" />
-                            <h2 style="color: white">IOS</h2>
-                            <a class="btn btn-primary btn-lg" href="https://itunes.apple.com/cn/app/%E7%BE%8E%E5%9B%A2%E5%A4%96%E5%8D%96-%E5%A4%96%E5%8D%96%E8%AE%A2%E9%A4%90-%E9%80%81%E5%95%A5%E9%83%BD%E5%BF%AB/id737310995?mt=8" role="button">IOS点击下载</a>
-                        </div>
-                    </div>
-				</div>
-				<div class="col-xs-12 col-md-6 col-sm-6 text-center">
-{#                    <img src="{% static 'blog/images/bab.png' %}" class="img-responsive" alt="iphone-Xs" />#}
-					<img style="margin-top: 4em" src="{% static 'blog/images/ipad.jpg' %}" class="img-responsive" alt="" />
-				</div>
-				<div class="clearfix"></div>
-			</div>
-		</div>
-	</div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">91租机</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#download">下载</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#features">租机流程</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#contact">联系我们</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-	<div class="content">
-		<div class="features-section" id="zuji">
-			<div class="container">
-				<div class="features-section-head text-center">
-					<h3>租机流程</h3>
-				</div>
-
-	     <div id="portfoliolist">
-					<div class="portfolio app mix_all" data-cat="app" style="display: inline-block; opacity: 1;">
-						<div class="portfolio-wrapper wow bounceIn" data-wow-delay="0.4s">		
-							<a href="#small-dialog1" class="b-link-stripe b-animate-go  thickbox play-icon popup-with-zoom-anim">
-						     <img src="{% static 'blog/images/step1@2x.png' %}" class="img-responsive" alt=""/>
-{#                             <h2 class="text-center">选品下单</h2>#}
-							<div class="tour-caption">							
-							<span> </span>
-							 <p>挑选机型</p>
-							</div></a>
-						</div>
-					</div>				
-					<div class="portfolio card mix_all" data-cat="card" style="display: inline-block; opacity: 1;">
-						<div class="portfolio-wrapper wow bounceIn" data-wow-delay="0.4s">		
-							<a href="#small-dialog2" class="b-link-stripe b-animate-go  thickbox play-icon popup-with-zoom-anim">
-						     <img src="{% static 'blog/images/step2@2x.png' %}" class="img-responsive" alt=""/>
-							 <div class="tour-caption">
-							<span> </span>
-							 <p>订单审核</p>
-						     </div></a>
-						</div>
-					</div>		
-					<div class="portfolio app mix_all" data-cat="app" style="display: inline-block; opacity: 1;">
-						<div class="portfolio-wrapper wow bounceIn" data-wow-delay="0.4s">		
-							<a href="#small-dialog3" class="b-link-stripe b-animate-go  thickbox play-icon popup-with-zoom-anim">
-						     <img src="{% static 'blog/images/step3@2x.png' %}" class="img-responsive" alt=""/>
-							 <div class="tour-caption">
-							<span> </span>
-							 <p>商品发货</p>
-							 </div></a>
-						</div>
-					</div>				
-					<div class="portfolio fun mix_all" data-cat="fun" style="display: inline-block; opacity: 1;">
-						<div class="portfolio-wrapper wow bounceIn" data-wow-delay="0.4s">		
-							<a href="#small-dialog4" class="b-link-stripe b-animate-go  thickbox play-icon popup-with-zoom-anim">
-						     <img src="{% static 'blog/images/step6@2x.png' %}" class="img-responsive" alt=""/>
-							 <div class="tour-caption">
-							<span> </span>
-							 <p>每月按时还款</p>
-							</div></a>
-						</div>
-					</div>			
-				<div class="clearfix"></div>	
-			</div>
-		</div>
-		<!---->
-	</div>
-		<div class="city" id="aboutus">
-			<div class="container">
-                <div class="row">
-                    <div class="col-md-6 city-left">
-                        <h2>91租机</h2>
-                        <h5>杭州凡有科技有限公司</h5>
-                        <p>91租机，杭州凡有科技旗下数码租赁平台，平台主要以手机，电脑，摄像机等全新以及二手数码进行的租赁以及回收服务，
-                            用户无需支付押金，只需通过我们的风控审核，即可免押租赁最新，最时尚的数码3c产品。</p>
-                    </div>
-                    <div class="col-md-6 city-right">
-                        <img src="{% static 'blog/images/city.jpg' %}">
-    {#					<img src="{% static 'blog/images/Apple-iPhone-Xs_327x480.jpg' %}" alt="iphone-Xs" />#}
-                    </div>
+    <header class="masthead">
+      <div class="container h-100">
+        <div class="row h-100">
+          <div class="col-lg-7 my-auto">
+            <div class="header-content mx-auto">
+                <img src="{% static 'blog/images/white_logo.png' %}" class="">
+              <h1 class="mb-5 mt-5">无需押金，即可租机</h1>
+{#              <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Start Now for Free!</a>#}
+                <img src="{% static 'blog/images/qrcode_andriod_gaitubao_com_199x199.png' %}" class="js-scroll-trigger">
+            </div>
+          </div>
+          <div class="col-lg-5 my-auto">
+            <div class="device-container">
+              <div class="device-mockup iphone6_plus portrait white">
+                <div class="device">
+                  <div class="screen">
+                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                    <img src="{% static 'blog/images/demo-screen-1.jpg' %}" class="img-fluid" alt="">
+                  </div>
+                  <div class="button">
+                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                  </div>
                 </div>
-				<div class="clearfix"></div>
-			</div>
-		</div>
-	</div>
-    <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-{% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
 
-{% block javascript %}
-    <script>
-        $(document).ready(function(){
-          $().UItoTop({ easingType: 'easeOutQuart' });
-        });
+    <section class="download bg-primary text-center" id="download">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 mx-auto">
+            <h2 class="section-heading">租机从未如此简单</h2>
+            <p>我们的APP在任何移动设备上都可下载，点击下方链接开始下载</p>
+            <div class="badges">
+                <a class="badge-link" href="#"><img src="{% static 'blog/images/google-play-badge.svg' %}" alt=""></a>
+                <a class="badge-link" href="#"><img src="{% static 'blog/images/app-store-badge.svg' %}" alt=""></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-               $(function(){
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-heading text-center">
+          <h2>只需简单的四步，即可完成租机</h2>
+{#          <p class="text-muted">Check out what you can do with this app theme!</p>#}
+          <hr>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 my-auto">
+            <div class="device-container">
+              <div class="device-mockup iphone6_plus portrait white">
+                <div class="device">
+                  <div class="screen">
+                    <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
+                    <img src="{% static 'blog/images/demo-screen-1.jpg' %}" class="img-fluid" alt="">
+                  </div>
+                  <div class="button">
+                    <!-- You can hook the "home button" to some JavaScript events or just remove it -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8 my-auto">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="feature-item">
+                    <i class="icon-screen-smartphone text-primary"></i>
+                    <h3>挑选机型</h3>
+{#                    <p class="text-muted">Ready to use HTML/CSS device mockups, no Photoshop required!</p>#}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="feature-item">
+                    <i class="icon-camera text-primary"></i>
+                    <h3>订单审核</h3>
+{#                    <p class="text-muted">Put an image, video, animation, or anything else in the screen!</p>#}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="feature-item">
+                    <i class="icon-present text-primary"></i>
+                    <h3>商品发货</h3>
+{#                    <p class="text-muted">As always, this theme is free to download and use for any purpose!</p>#}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="feature-item">
+                    <i class="icon-lock-open text-primary"></i>
+                    <h3>每月按时还款</h3>
+{#                    <p class="text-muted">Since this theme is MIT licensed, you can use it commercially!</p>#}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      // Initialize the gallery
-        $('.works a.gal').touchTouch();
-     });
-    </script>
+    <section class="cta">
+      <div class="cta-content">
+        <div class="container">
+          <h2>别再等待<br>即刻租机</h2>
+          <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">立即开始租机</a>
+        </div>
+      </div>
+      <div class="overlay"></div>
+    </section>
 
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event){
-                event.preventDefault();
-                $('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
-            });
-        });
-    </script>
+    <section class="contact bg-primary" id="contact">
+      <div class="container">
+        <h2>关注微信公众号</h2>
+        <ul class="list-inline list-social">
+          <li class="list-inline-item social-twitter">
+              <img src="{% static 'blog/images/91_rent_qrcode.jpeg' %}">
+          </li>
+{#          <li class="list-inline-item social-google-plus">#}
+{#            <a href="#">#}
+{#              <i class="fab fa-google-plus-g"></i>#}
+{#            </a>#}
+{#          </li>#}
+        </ul>
+      </div>
+    </section>
 
-        <script type="text/javascript">
-        $(document).ready(function() {
-            /*
-            var defaults = {
-                containerID: 'toTop', // fading element id
-                containerHoverID: 'toTopHover', // fading element hover id
-                scrollSpeed: 1200,
-                easingType: 'linear'
-            };
-            */
-
-            $().UItoTop({ easingType: 'easeOutQuart' });
-
-        });
-    </script>
+    <footer>
+      <div class="container">
+        <p>&copy; Your Website 2018. All Rights Reserved.</p>
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <p>地址 : 杭州市拱墅区萍水街333号御峰大厦1922</p>
+          </li>
+          <li class="list-inline-item">
+            <p>联系电话 : 0571-86507022</p>
+          </li>
+          <li class="list-inline-item">
+            <p>邮箱 : yuxiang@fanyoutech.com</p>
+          </li>
+        </ul>
+      </div>
+    </footer>
 {% endblock %}

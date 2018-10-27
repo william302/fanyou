@@ -41,7 +41,7 @@ def qrcode_upload(merchant_id):
     icon = icon.convert("RGBA")
     img.paste(icon, (w, h), icon)
     image_path = settings.MEDIA_ROOT + '/qrcode/%s.png' % merchant_id
-    img.save(image_path)  # 显示图片,可以通过save保存
+    img.save(image_path)
 
     oss_path = config('ALIYUN_OSS_PATH')
     object_name = oss_path % merchant_id
@@ -51,6 +51,7 @@ def qrcode_upload(merchant_id):
     aliyun_url = http_oss_path % merchant_id
     print('http status: {0}'.format(result.status))
     print('request_id: {0}'.format(result.request_id))
+    print('sss')
 
     return aliyun_url
 

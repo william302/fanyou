@@ -1,0 +1,12 @@
+body {
+      background: url(../images/bg-pattern.png), linear-gradient(to left, #7b4397, #dc2430);
+}
+
+/*.logo a {*/
+  /*color: rgba(0,0,0,.9);*/
+/*}*/
+
+/*.logo a:hover,*/
+/*.logo a:active {*/
+  /*text-decoration: none;*/
+/*}*/

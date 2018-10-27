@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'api',
+    'accounts',
     'crispy_forms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +124,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# User model
+AUTH_USER_MODEL = 'accounts.MerchantUser'
+
+# redirect
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -152,4 +160,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Crispy_forms
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# email settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
