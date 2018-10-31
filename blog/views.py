@@ -11,6 +11,7 @@ from .forms import SignupForm
 import requests
 from .models import Merchant
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import View
 # Create your views here.
 
 

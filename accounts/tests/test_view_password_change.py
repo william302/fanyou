@@ -19,11 +19,11 @@ class PasswordChangeTests(TestCase):
         self.client.login(username='john', password='old_password')
         self.response = self.client.post(self.url, data, follow=True)
 
-    # def test_login(self):
-    #     url = reverse('index')
-    #     response = self.client.get(url)
-    #     user = response.context.get('user')
-    #     self.assertTrue(user.is_authenticated)
+    def test_login(self):
+        url = reverse('index')
+        response = self.client.get(url)
+        user = response.context.get('user')
+        self.assertTrue(user.is_authenticated)
 
 
 class SuccessfulPasswordChangeTests(PasswordChangeTests):
