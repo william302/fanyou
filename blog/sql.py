@@ -37,3 +37,22 @@ def find_merchant_user(dealer_id):
         cursor.execute(sql, args)
         rows = cursor.fetchall()
     return rows
+
+
+def find_user_voted_time(phone):
+    sql = "SELECT voted_time FROM t_user_base WHERE mobile = %s"
+    args = (phone,)
+    with connection.cursor() as cursor:
+        cursor.execute(sql, args)
+        row = cursor.fetchone()
+    return row[0]
+
+
+def update_user_voted_time(phone):
+    sql = "UPDATE t_user_base SET voted_time = %s WHERE mobile = %s"
+    current_time = datetime.datetime.now()
+    args = (current_time, phone)
+    with connection.cursor() as cursor:
+        cursor.execute(sql, args)
+        connection.commit()
+    return

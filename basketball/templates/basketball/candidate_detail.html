@@ -1,0 +1,69 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'basketball/css/basketball.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron text-center">
+      <h1>{{ candidate.id }}号-{{ candidate.name }}</h1>
+    </div>
+
+    <div>
+    <h1 class="text-center">照片</h1>
+    <hr/>
+    <figure class="figure">
+      <img src="/media/{{ candidate.avatar }}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+      <figcaption class="figure-caption">{{ candidate.description }}</figcaption>
+    </figure>
+    </div>
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr class="text-center">
+                <th>投票记录</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in vote_record_list %}
+                <tr>
+                    <td>{{ record.mobile }}在{{ record.created_time }}给{{ record.candidate }}投了一票</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <footer class="bg-info" >
+      <div class="container">
+        <a href="{% url 'vote_index' %}">
+            <i class="fas fa-home fa-2x float-left">首页</i>
+        </a>
+        <span  id="vote" >
+            <i class="fas fa-crown fa-2x">投票</i>
+        </span>
+      </div>
+    </footer>
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $('#vote').click(function () {
+            $.ajax({
+                url: '{% url 'vote' candidate.id %}',
+                method: 'POST',
+                success: function (data) {
+                    if (data.error_message){
+                        alert(data.error_message)
+                    }
+                    if (data.success_message){
+                        alert(data.success_message)
+                    }
+                }
+            })
+        })
+    </script>
+{% endblock %}

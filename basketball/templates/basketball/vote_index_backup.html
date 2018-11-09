@@ -1,0 +1,91 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+{#    {% for candidate in candidate_list %}#}
+{#        <ul>#}
+{#            <li><a href="{% url 'index' %}#download">{{ candidate.name }}</a></li>#}
+{#            <li><img src="/media/{{ candidate.avatar }}"></li>#}
+{#            <li><a href="{% url 'candidate_detail' candidate.id %}">{{ candidate.description }}</a></li>#}
+{#            <li>{{ candidate.votes }}</li>#}
+{#        </ul>#}
+{#    {% endfor %}#}
+    <div class="container">
+
+    <div class="cover">
+            <img src="{% static 'basketball/img/thumwidth_640_6F4046A0-FDA0-1928-D1E0-B67D83BD1E23_src.jpg' %}" alt="">
+        </div>
+
+        <!-- 投票标题 -->
+        <h2 class="title iconfont icon-biaoti">投票标题</h2>
+
+        <!-- total-table -->
+        <ul class="table">
+            <li>
+                <h2>参与选手</h2>
+                <h2>累计投票</h2>
+                <h2>访问次数</h2>
+            </li>
+            <li>
+                <span>23412</span>
+                <span>1241</span>
+                <span>124124</span>
+            </li>
+        </ul>
+
+        <!-- 活动规则 -->
+        <ul class="rule">
+            <li>
+                <i class="iconfont icon-shijian"></i>
+                <span>开始时间:</span>
+                <span>1234312412</span>
+            </li>
+            <li>
+                <i class="iconfont icon-shijian"></i>
+                <span>截止时间:</span>
+                <span>1234312412</span>
+            </li>
+            <li>
+                <i class="iconfont icon-guize"></i>
+                <span>投票规则:</span>
+                <span>1234312412</span>
+            </li>
+        </ul>
+
+        <!-- 搜索 -->
+        <div class="search">
+            <input type="text">
+            <button>搜索</button>
+        </div>
+
+
+        <!-- 查看排名 -->
+        <div class="pank">
+            <h2 class="iconfont icon-303">点击查看排名</h2>
+
+        </div>
+
+
+    <section>
+        <div class="container">
+            <div class="row">
+                {% for candidate in candidate_list %}
+                    <a href="{% url 'candidate_detail' candidate.id %}">
+                    <div class="col-6 mt-3">
+                        <div class="card">
+                            <img class="card-img-top img-circle" src="{{ candidate.avatar.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ candidate.id }}号-{{ candidate.name }}</h5>
+                                <p>票数：{{ candidate.votes }}</p>
+                                <a href="{% url 'candidate_detail' candidate.id %}" class="btn btn-primary">投票</a>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    </div>
+{% endblock %}
+

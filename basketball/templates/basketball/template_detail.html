@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="{% static 'basketball/css/template.css' %}">
+</head>
+<body>
+    <div class="container">
+
+
+    </div>
+   <!-- 清除浮动-->
+
+   <!-- 排名列表 -->
+    <ul class="list hide">
+                <h2>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                </h2>
+                <li>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                </li>
+                <li>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                </li>
+                <li>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                </li>
+                <li>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                    <span>sfadf;aljdsf</span>
+                </li>
+            </ul>
+    <!-- 报名区域 -->
+
+
+    <!-- 活动详情 -->
+
+    <div class="detail hide">
+        <h2>活动详情</h2>
+        <p>的发的发的法师的发大发送到发送到发大发大撒旦法师的大法师的法师打发第三方</p>
+    </div>
+
+
+    <!-- 我的 -->
+    <div class="admin hide">
+        <span class="condition">正在投票中</span>
+        <ul class="picInfo">
+            <li>
+              <span>姓名：</span>
+              <span>第0240284名</span>
+            </li>
+            <li>
+              <span>排名：</span>
+               <span>第0240284名</span>
+            </li>
+        </ul>
+        <div class="previewImg">
+            <img src="" alt="">
+        </div>
+        <div class="intro">
+            <span>图片描述:</span>
+            <p>dasdfasdfadsfsdfsdfsa</p>
+        </div>
+    </div>
+
+
+    <!-- 返回主页 -->
+
+    <!-- 点击显示详细信息 -->
+    <div class="displayPic">
+        <h2 class="name">选手照片</h2>
+        <div class="imgGroup">
+        <img src="{{ candidate.avatar.url }}" alt="">
+
+        </div>
+        <h2 class="Contestant">选手简介简介</h2>
+        <div class="detailIntro">
+            <li>
+                <span>姓名：</span>
+                <span>{{ candidate.name }}</span>
+            </li>
+            <li>
+                <span>个人介绍:</span>
+                <span>{{ candidate.description }}</span>
+            </li>
+            <li>
+                <span>已投票人数:</span>
+                <span>{{ candidate.votes }}</span>
+            </li>
+            <button onclick="vote_for_ta()" class="voteForTa">投TA一票</button>
+        </div>
+    </div>
+
+
+    <!-- 固定底部信息 -->
+    <div class="nav">
+        <li class="signBtn">首页</li>
+        <li class="activtyBtn">活动详情</li>
+        <li class="adminBtn">我的</li>
+    </div>
+
+   <!-- juery -->
+    <script src="https://fanyou-static.oss-cn-hangzhou.aliyuncs.com/css/jquery-3.3.1.min.js"></script>
+    <script src="https://fanyou-static.oss-cn-hangzhou.aliyuncs.com/css/bootstrap.bundle.min.js"></script>
+
+  <script src="{% static 'basketball/js/template.js' %}"></script>
+
+
+
+    <script type="text/javascript">
+        function vote_for_ta() {
+            $.ajax({
+                url: '{% url 'vote' candidate.id %}',
+                method: 'POST',
+                success: function (data) {
+                    if (data.error_message){
+                        alert(data.error_message)
+                    }
+                    if (data.success_message){
+                        alert(data.success_message)
+                    }
+                }
+            })
+        }
+    </script>
+
+
+</body>
+</html>

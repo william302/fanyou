@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     'blog',
     'api',
     'accounts',
+    'basketball',
     'crispy_forms',
     'widget_tweaks',
+    'imagekit',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,16 @@
+{% for candidate in candidate_list %}
+    <li onclick="vote({{ candidate.id }})">
+        <img src="{{ candidate.avatar.url }}" alt="选手" />
+        <div class="voteDetail">
+            <div class="name">
+                <span class="left">
+                    姓名：{{ candidate.name }}
+                </span>
+                <span class="right">
+                    票数：{{ candidate.votes }}
+                </span>
+            </div>
+            <button class="voteBtn">投票</button>
+        </div>
+    </li>
+{% endfor %}

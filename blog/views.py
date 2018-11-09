@@ -128,7 +128,7 @@ def send_verify_code(request):
             data['success_message'] = '已发送'
             request.session['verify_code'] = sms_code
             request.session['phone'] = phone
-            request.session.set_expiry(60*60)
+            # request.session.set_expiry(60*60)
             request.session['time'] = session_time_stamp
             return JsonResponse(data)
         else:

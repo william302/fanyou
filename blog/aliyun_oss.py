@@ -13,7 +13,7 @@ bucket = oss2.Bucket(auth, 'http://oss-cn-beijing.aliyuncs.com', 'rent-mall', co
 def qrcode_upload(merchant_id):
     auth = oss2.Auth(access_key, access_key_secret)
     bucket = oss2.Bucket(auth, 'http://oss-cn-beijing.aliyuncs.com', 'rent-mall', connect_timeout=30)
-    url = 'http://47.98.40.106/signup?dealer=%s' % merchant_id
+    url = 'https://www.fanyoutech.com/signup?dealer=%s' % merchant_id
 
     qr = qrcode.QRCode(version=5, error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=8, border=4)
     qr.add_data(url)
@@ -49,11 +49,12 @@ def qrcode_upload(merchant_id):
 
     http_oss_path = config('HTTP_OSS_PATH')
     aliyun_url = http_oss_path % merchant_id
-    print('http status: {0}'.format(result.status))
-    print('request_id: {0}'.format(result.request_id))
-    print('sss')
+    # print('http status: {0}'.format(result.status))
+    # print('request_id: {0}'.format(result.request_id))
+    # print('sss')
 
     return aliyun_url
+
 
 def bussiness_license_upload(image_path):
     image_path = settings.MEDIA_ROOT + image_path

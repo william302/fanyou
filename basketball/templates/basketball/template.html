@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="{% static 'basketball/font/iconfont.css' %}">
+    <link rel="stylesheet" href="{% static 'basketball/css/template.css' %}">
+</head>
+<body>
+    <div class="container">
+       <!--图文消息，封面  -->
+        <div class="cover">
+            <img src="{{ activity.image.url }}" alt="">
+        </div>
+        
+        <!-- 投票标题 -->
+        <h2 class="title iconfont icon-biaoti">{{ activity.title }}</h2>
+
+        <!-- total-table -->
+        <ul class="table">
+            <li>
+                <h2>参与选手</h2>
+                <h2>累计投票</h2>
+                <h2>访问次数</h2>
+            </li>
+            <li>
+                <span>{{ candidate_list.count }}</span>
+                <span>{{ votes_count }}</span>
+                <span>{{ activity.views }}</span>
+            </li>
+        </ul>
+
+        <!-- 活动规则 -->
+        <ul class="rule">
+            <li>
+                <i class="iconfont icon-shijian"></i>
+                <span>开始时间:</span>
+                <span>{{ activity.start_time }}</span>
+            </li>
+            <li>
+                <i class="iconfont icon-shijian"></i>
+                <span>截止时间:</span>
+                <span>{{ activity.end_time }}</span>
+            </li>
+            <li>
+                <i class="iconfont icon-guize"></i>
+                <span>投票规则:</span>
+                <span>1234312412</span>
+            </li>
+        </ul>
+
+        <!-- 搜索 -->
+        <div class="search">
+            <input type="text">
+            <button>搜索</button>
+        </div>
+
+
+        <!-- 查看排名 -->
+        <div class="pank">
+            <h2 class="iconfont icon-303">点击查看排名</h2>
+           
+        </div>
+
+        <!-- 投票列表 -->
+        <div class="vote">
+            <ul id="main">
+                {% for candidate in candidate_list %}
+                    <li onclick="vote({{ candidate.id }})">
+                        <img src="{{ candidate.avatar.url }}" alt="选手" />
+                        <div class="voteDetail">
+                            <div class="name">
+                                <span class="left">
+                                    姓名：{{ candidate.name }}
+                                </span>
+                                <span class="right">
+                                    票数：{{ candidate.votes }}
+                                </span>
+                            </div>
+                            <button class="voteBtn">投票</button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+    </div>
+   <!-- 清除浮动-->
+
+   <!-- 排名列表 -->
+    <ul class="list hide">
+        <h2>
+            <span>名次</span>
+            <span>选手</span>
+            <span>票数</span>
+        </h2>
+        {% for candidate in candidate_list|dictsortreversed:"votes" %}
+            <li>
+                <span>{{ forloop.counter }}</span>
+                <span>{{ candidate.name }}</span>
+                {{ candidate.votes }}
+            </li>
+        {% endfor %}
+    </ul>
+    <!-- 报名区域 -->
+    <div class="mask hide">
+      <div class="enterarea">
+        <h2>报名</h2>
+        <ul class="info">
+            <li>
+                <span>姓名：</span>
+                <input type="text">
+            </li>
+            <li>
+                <span>姓名：</span>
+                <input type="text">
+            </li>
+            <li>
+               <span>上传图片</span>
+               <div class="filearea">
+                   <div class="add" >
+                       <input type="file" onchange="previewImage(this)">
+                   </div>
+                   <div class="preview"  id="preview">
+                       <img src="" alt=""  id="imghead" width="100%" border=0 >
+                   </div>
+                </div>
+            </li>
+            <li class="comments">
+            <span>参数描述：</span>
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+            </li>
+
+        </ul>
+       </div>
+       <button class="confrim">确认报名</button>
+    </div>
+
+
+    <!-- 活动详情 -->
+
+    <div class="detail hide">
+        <h2>活动详情</h2>
+        <p>的发的发的法师的发大发送到发送到发大发大撒旦法师的大法师的法师打发第三方</p>
+    </div>
+
+
+    <!-- 我的 -->
+    <div class="admin hide">
+        <span class="condition">正在投票中</span>
+        <ul class="picInfo">
+            <li>
+              <span>姓名：</span>
+              <span>第0240284名</span>
+            </li>
+            <li>
+              <span>排名：</span>
+               <span>第0240284名</span>
+            </li>
+        </ul>
+        <div class="previewImg">
+            <img src="" alt="">
+        </div>
+        <div class="intro">
+            <span>图片描述:</span>
+            <p>dasdfasdfadsfsdfsdfsa</p>
+        </div>
+    </div>
+
+
+    <!-- 返回主页 -->
+    <div class="return hide">
+        <button class="return iconfont icon-fanhui">返回</button>
+    </div>
+
+    <!-- 点击显示详细信息 -->
+    <div class="displayPic hide">
+        <h2 class="name">参赛作品</h2>
+        <div class="imgGroup">
+        <img class="image1" src="" alt="">
+            
+        </div>
+        <h2 class="Contestant">参赛简介</h2>
+        <div class="detailIntro">
+            <li>
+                <span>姓名：</span>
+                <span class="xinming">ddd</span>
+            </li>
+            <li>
+                <span>参赛宣言</span>
+                <span class="xuanyan">电话费卡拉三等奖法律手段积分</span>
+            </li>
+            <li>
+                <span>已投票人数</span>
+                <span class="vote-count">78897</span>
+            </li>
+{#            <button class="voteForTa" id="cc" onclick="vote_for_ta(2)">投TA一票</button>#}
+        </div>
+    </div>
+
+
+    <!-- 固定底部信息 -->
+    <div class="nav">
+        <li class="signBtn">首页</li>
+        <li class="activtyBtn">活动详情</li>
+        <li class="adminBtn">我的</li>
+    </div>
+   
+   <!-- juery -->
+    <script src="https://fanyou-static.oss-cn-hangzhou.aliyuncs.com/css/jquery-3.3.1.min.js"></script>
+    <script src="https://fanyou-static.oss-cn-hangzhou.aliyuncs.com/css/bootstrap.bundle.min.js"></script>
+
+  <script src="{% static 'basketball/js/template.js' %}"></script>
+{#  <script src="{% static 'basketball/js/waterfull.js' %}"></script>#}
+  <script>
+  /*$(window).on('load',function(){
+    $(window).on('scroll',function(){
+    console.log(7);
+     });
+  })*/
+  </script>
+
+  <script type="text/javascript">
+      function vote(id) {
+          {#  $(".displayPic,.return").removeClass('hide');#}
+          {#  $(".container").addClass('hide');#}
+          {#{% for candidate in candidate_list %}#}
+          {#  if (id==={{ candidate.id }}){#}
+          {#      $('.xinming').html('{{ candidate.name }}')#}
+          {#      $('.image1').attr("src", "{{ candidate.avatar.url }}")#}
+          {#      $('.xuanyan').html("{{ candidate.description }}")#}
+          {#      $('.vote-count').html("{{ candidate.votes }}")#}
+                {#$('#cc').addEventListener('click', vote_for_ta({{ candidate.id }}))#}
+          {#      var temp = '<button class="voteForTa" id="cc" onclick="vote_for_ta(vote_id)">投TA一票</button>'.replace('vote_id', id);#}
+          {#      $('.detailIntro').append(temp);#}
+          {#  }#}
+          {#{% endfor %}#}
+          window.location.href = '/basketball/candidate_detail/vote_id'.replace('vote_id', id)
+      }
+  </script>
+
+    <script type="text/javascript">
+         $(window).scroll(function(){
+      if  ($(window).scrollTop() === $(document).height() - $(window).height()){
+           AddMoreContent();
+            }
+        });
+
+        function AddMoreContent() {
+            $.ajax({
+                url: '{% url 'lazy_load_candidates' %}',
+                page: 2,
+                method: 'POST',
+                success: function (data) {
+                    $('#main').append(data.html)
+                }
+            })
+        }
+    </script>
+
+
+</body>
+</html>
