@@ -15,17 +15,19 @@ import datetime
 @csrf_exempt
 def vote_index(request):
     candidate_list = Candidate.objects.all().order_by('name')
-    paginator = Paginator(candidate_list, 2)
+    candidate_count = candidate_list.count()
+    paginator = Paginator(candidate_list, 5)
     if request.method == 'POST':
         data = {}
         page = int(request.POST.get('page'))
         print(page)
         candidate_list = paginator.get_page(page)
         print(paginator.num_pages)
-        data['has_next'] = candidate_list.has_next()
+
         if candidate_list.has_next():
+            data['has_next'] = candidate_list.has_next()
             data['next_page_num'] = candidate_list.next_page_number()
-        # print(data)
+        print(data)
         data['html'] = loader.render_to_string('basketball/lazy_load_candidates.html',
                                                {'candidate_list': candidate_list})
         return JsonResponse(data)
@@ -34,7 +36,10 @@ def vote_index(request):
         activity.increase_views()
         candidate_list = paginator.get_page(1)
         votes_count = VoteRecord.objects.count()
+
+        print(votes_count)
         context = {'candidate_list': candidate_list,
+                   'candidate_count': candidate_count,
                    'votes_count': votes_count,
                    'activity': activity}
         return render(request, 'basketball/template.html', context)
