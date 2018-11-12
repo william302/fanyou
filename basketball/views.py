@@ -8,26 +8,67 @@ from .decorators import custome_login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseRedirect
 from django.template import loader
+from django.core.paginator import Paginator
 import datetime
 
 
+@csrf_exempt
 def vote_index(request):
-    activity = get_object_or_404(Activity, slug='basketball')
-    activity.increase_views()
-    candidate_list = Candidate.objects.all().order_by('-description')
-    votes_count = VoteRecord.objects.count()
-    context = {'candidate_list': candidate_list,
-               'votes_count': votes_count,
-               'activity': activity}
-    return render(request, 'basketball/template.html', context)
+    candidate_list = Candidate.objects.all().order_by('name')
+    paginator = Paginator(candidate_list, 2)
+    if request.method == 'POST':
+        data = {}
+        page = int(request.POST.get('page'))
+        print(page)
+        candidate_list = paginator.get_page(page)
+        print(paginator.num_pages)
+        data['has_next'] = candidate_list.has_next()
+        if candidate_list.has_next():
+            data['next_page_num'] = candidate_list.next_page_number()
+        # print(data)
+        data['html'] = loader.render_to_string('basketball/lazy_load_candidates.html',
+                                               {'candidate_list': candidate_list})
+        return JsonResponse(data)
+    else:
+        activity = get_object_or_404(Activity, slug='basketball')
+        activity.increase_views()
+        candidate_list = paginator.get_page(1)
+        votes_count = VoteRecord.objects.count()
+        context = {'candidate_list': candidate_list,
+                   'votes_count': votes_count,
+                   'activity': activity}
+        return render(request, 'basketball/template.html', context)
+
 
 @csrf_exempt
 def lazy_load_candidates(request):
     if request.method == 'POST':
         data = {}
-        candidate_list = Candidate.objects.all()
+        page = int(request.POST.get('page', 1))
+        print(page)
+        candidate_list = Candidate.objects.all()[2:]
+        paginator = Paginator(candidate_list, 2)
+        candidate_list = paginator.get_page(page)
+        print(paginator.num_pages)
+        if page > paginator.num_pages:
+            data['stop_sign'] = True
+            return JsonResponse(data)
         data['html'] = loader.render_to_string('basketball/lazy_load_candidates.html',
                                                {'candidate_list': candidate_list})
+        return JsonResponse(data)
+
+
+@csrf_exempt
+def search(request):
+    if request.method == 'POST':
+        data = {}
+        name = request.POST.get('q')
+        candidate_list = Candidate.objects.filter(name=name)
+        if candidate_list.exists():
+            data['result'] = loader.render_to_string('basketball/lazy_load_candidates.html',
+                                                     {'candidate_list': candidate_list})
+        else:
+            data['result'] = '没有搜索结果'
         return JsonResponse(data)
 
 

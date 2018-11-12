@@ -3,7 +3,7 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>{{ activity.title }}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" type="text/css" href="{% static 'basketball/font/iconfont.css' %}">
     <link rel="stylesheet" href="{% static 'basketball/css/template.css' %}">
@@ -47,14 +47,14 @@
             <li>
                 <i class="iconfont icon-guize"></i>
                 <span>投票规则:</span>
-                <span>1234312412</span>
+                <span>每一天可以投一票</span>
             </li>
         </ul>
 
         <!-- 搜索 -->
         <div class="search">
-            <input type="text">
-            <button>搜索</button>
+            <input type="text" name="q" id="search_input" placeholder="输入选手姓名搜索">
+            <button onclick="search()">搜索</button>
         </div>
 
 
@@ -84,6 +84,15 @@
                     </li>
                 {% endfor %}
             </ul>
+            {% if candidate_list.has_next %}
+                <input type="hidden" class="next-page" value="{{ candidate_list.next_page_number }}">
+            {% endif %}
+              <div class="loading text-center" style="display: none;">
+                <span class="text-center text-primary">加载中。。。</span>
+              </div>
+              <div class="no-more text-center" style="display: none;">
+                <span class="text-center text-primary">没有更多了</span>
+              </div>
         </div>
 
 
@@ -243,19 +252,57 @@
   </script>
 
     <script type="text/javascript">
+
          $(window).scroll(function(){
       if  ($(window).scrollTop() === $(document).height() - $(window).height()){
-           AddMoreContent();
+
+           var next_page = $('.next-page');
+           if(next_page.length){
+                var page = next_page.val();
+                AddMoreContent(page);
+           }
+           else {
+                {#$('.no-more').show()#}
+           }
             }
         });
 
-        function AddMoreContent() {
+        function AddMoreContent(page) {
             $.ajax({
-                url: '{% url 'lazy_load_candidates' %}',
-                page: 2,
+                url: '{% url 'vote_index' %}',
+                data: {'page': page},
+                dataType: 'json',
                 method: 'POST',
+                beforeSend: function(){
+                    $('.loading').show()
+                },
                 success: function (data) {
-                    $('#main').append(data.html)
+                    if (data.has_next){
+                        $('.next-page').val(data.next_page_num);
+                    }
+                    else {
+                        $('.next-page').remove();
+                    }
+                    $('#main').append(data.html);
+                },
+                complete: function () {
+                    $('.loading').hide();
+                }
+            })
+        }
+    </script>
+
+    <script type="text/javascript">
+        function search() {
+            let q = $('#search_input').val()
+            $.ajax({
+                url: '{% url 'search' %}',
+                data: {'q': q},
+                method: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    $('#main').html(data.result);
+                    $('.next-page').remove();
                 }
             })
         }
