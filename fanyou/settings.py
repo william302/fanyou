@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'api',
     'accounts',
     'basketball',
+    'wechat',
     'crispy_forms',
     'widget_tweaks',
     'imagekit',

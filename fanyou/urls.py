@@ -23,7 +23,8 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('basketball/', include('basketball.urls'))
+    path('basketball/', include('basketball.urls')),
+    path('wechat/', include('wechat.urls'))
 ]
 
 if settings.DEBUG:
