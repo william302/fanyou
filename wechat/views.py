@@ -5,6 +5,7 @@ from wechatpy import parse_message, WeChatClient
 from wechatpy.replies import TextReply, ArticlesReply, ImageReply
 from django.views.decorators.csrf import csrf_exempt
 from decouple import config
+from wechatpy.exceptions import WeChatClientException
 
 
 app_id = config('WECHAT_APPID')
@@ -42,15 +43,14 @@ def index(request):
                 r_xml = reply.render()
                 return HttpResponse(r_xml)
             if msg.content == '名字':
+                client = WeChatClient(app_id, secret)
+                user_id = msg.source
                 try:
-                    client = WeChatClient(app_id, secret)
-                    user_id = msg.source
-                    print(user_id)
                     user = client.user.get(user_id)
-                    print(user)
                 except Exception as e:
                     print(e)
-                reply = TextReply(content='你是'+user.get('nickname'), message=msg)
+
+                reply = TextReply(content='你是', message=msg)
                 r_xml = reply.render()
                 return HttpResponse(r_xml)
             else:

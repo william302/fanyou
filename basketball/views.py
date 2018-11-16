@@ -50,11 +50,9 @@ def lazy_load_candidates(request):
     if request.method == 'POST':
         data = {}
         page = int(request.POST.get('page', 1))
-        print(page)
         candidate_list = Candidate.objects.all()[2:]
         paginator = Paginator(candidate_list, 2)
         candidate_list = paginator.get_page(page)
-        print(paginator.num_pages)
         if page > paginator.num_pages:
             data['stop_sign'] = True
             return JsonResponse(data)
