@@ -4,9 +4,12 @@ import hashlib
 from wechatpy import parse_message, WeChatClient
 from wechatpy.replies import TextReply, ArticlesReply, ImageReply
 from django.views.decorators.csrf import csrf_exempt
+from decouple import config
 
 
-# Create your views here.
+app_id = config('WECHAT_APPID')
+secret = config('WECHAT_SECRET')
+
 
 @csrf_exempt
 def index(request):
@@ -39,7 +42,7 @@ def index(request):
                 r_xml = reply.render()
                 return HttpResponse(r_xml)
             if msg.content == '名字':
-                client = WeChatClient('wx48fd9a4b8a809af8', 'd84531a5db6d65164be7c491fa115b0b')
+                client = WeChatClient(app_id, secret)
                 user_id = msg.source
                 print(user_id)
                 user = client.user.get(user_id)
