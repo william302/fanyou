@@ -3,7 +3,7 @@ from .models import Candidate, VoteRecord, Activity
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from blog.forms import SignupForm
-from blog.sql import find_user, update_user, insert_user, find_user_voted_time, update_user_voted_time
+from blog.sql import find_user, update_user, insert_user, update_user_voted_time, find_user_is_voted
 from .decorators import custome_login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseRedirect
@@ -80,13 +80,10 @@ def search(request):
 @csrf_exempt
 def vote(request, candidate_id):
     if request.method == 'POST':
-        current_time = datetime.datetime.now()
         data = {}
         mobile = request.session.get('mobile_auth', None)
-        print(mobile)
-        voted_time = find_user_voted_time(mobile)
-        print(voted_time)
-        if current_time - voted_time > datetime.timedelta(days=1):
+        is_voted = find_user_is_voted(mobile)
+        if is_voted == 0:
             candidate = get_object_or_404(Candidate, pk=candidate_id)
             candidate.increase_votes()
             vote_record = VoteRecord(mobile=mobile, candidate=candidate)

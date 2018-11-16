@@ -49,10 +49,20 @@ def find_user_voted_time(phone):
 
 
 def update_user_voted_time(phone):
-    sql = "UPDATE t_user_base SET voted_time = %s WHERE mobile = %s"
+    sql = "UPDATE t_user_base SET voted_time = %s, is_voted=1 WHERE mobile = %s"
     current_time = datetime.datetime.now()
     args = (current_time, phone)
     with connection.cursor() as cursor:
         cursor.execute(sql, args)
         connection.commit()
     return
+
+
+def find_user_is_voted(phone):
+    sql = "SELECT is_voted FROM t_user_base WHERE mobile = %s"
+    args = (phone,)
+    with connection.cursor() as cursor:
+        cursor.execute(sql, args)
+        row = cursor.fetchone()
+    return row[0]
+
