@@ -42,11 +42,14 @@ def index(request):
                 r_xml = reply.render()
                 return HttpResponse(r_xml)
             if msg.content == '名字':
-                client = WeChatClient(app_id, secret)
-                user_id = msg.source
-                print(user_id)
-                user = client.user.get(user_id)
-                print(user)
+                try:
+                    client = WeChatClient(app_id, secret)
+                    user_id = msg.source
+                    print(user_id)
+                    user = client.user.get(user_id)
+                    print(user)
+                except Exception as e:
+                    print(e)
                 reply = TextReply(content='你是'+user.get('nickname'), message=msg)
                 r_xml = reply.render()
                 return HttpResponse(r_xml)
@@ -55,9 +58,10 @@ def index(request):
                 try:
                     reply = TextReply(content=content, message=msg)
                     r_xml = reply.render()
+                    print('谢谢')
                     return HttpResponse(r_xml)
                 except Exception as e:
-                    pass
+                    print(e)
         if msg.type == 'event':
             if msg.event == 'subscribe':
                 reply = TextReply(content='谢谢关注91租机', message=msg)
