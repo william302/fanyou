@@ -35,9 +35,9 @@ def index(request):
             if msg.content == '投票':
                 reply = ArticlesReply(message=msg)
                 reply.add_article({
-                    'title': '91租机篮球活动',
-                    'description': 'fdfdfefdsfdsvsffefdsvsdsfefdsddsdc',
-                    'image': 'https://fanyou-static.oss-cn-hangzhou.aliyuncs.com/images/bg-cta.jpg',
+                    'title': '91租机人气之星投票大赛',
+                    'description': '',
+                    'image': 'https://fanyou-static.oss-cn-hangzhou.aliyuncs.com/images/basketball-bg.jpg',
                     'url': 'https://www.fanyoutech.com/basketball/'
                 })
                 r_xml = reply.render()
@@ -55,16 +55,12 @@ def index(request):
                 return HttpResponse(r_xml)
             else:
                 content = "感谢反馈，我们已经收到了你的留言"
-                try:
-                    reply = TextReply(content=content, message=msg)
-                    r_xml = reply.render()
-                    print('谢谢')
-                    return HttpResponse(r_xml)
-                except Exception as e:
-                    print(e)
+                reply = TextReply(content=content, message=msg)
+                r_xml = reply.render()
+                return HttpResponse(r_xml)
         if msg.type == 'event':
             if msg.event == 'subscribe':
-                reply = TextReply(content='谢谢关注91租机', message=msg)
+                reply = TextReply(content='谢谢关注91租机，更多详情请下载【91租机】APP', message=msg)
                 r_xml = reply.render()
                 return HttpResponse(r_xml)
             if msg.event == 'unsubscribe':
@@ -75,5 +71,11 @@ def index(request):
             reply = ImageReply(media_id=msg.media_id, message=msg)
             r_xml = reply.render()
             return HttpResponse(r_xml)
+        else:
+            content = "感谢反馈，我们已经收到了你的留言"
+            reply = TextReply(content=content, message=msg)
+            r_xml = reply.render()
+            return HttpResponse(r_xml)
+
 
 
