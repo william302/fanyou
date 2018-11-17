@@ -41,7 +41,7 @@ class Candidate(models.Model):
                                       format='JPEG',
                                       options={'quality': 60})
     votes = models.PositiveIntegerField('票数', default=0)
-    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, verbose_name='所属活动')
+    # activity = models.ForeignKey(Activity, on_delete=models.CASCADE, verbose_name='所属活动')
 
     def __str__(self):
         return self.name

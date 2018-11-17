@@ -46,7 +46,7 @@ def index(request):
                 client = WeChatClient(app_id, secret)
                 user_id = msg.source
                 try:
-                    user = client.user.get(user_id)
+                    user = client.user.get('dd')
                 except Exception as e:
                     print(e)
 
