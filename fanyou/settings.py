@@ -32,6 +32,8 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 ADMINS = [('william902', 'fangzz@fanyoutech.com')]
 
+SERVER_EMAIL = 'rent_91@fanyoutech.com'
+
 
 # Application definition
 

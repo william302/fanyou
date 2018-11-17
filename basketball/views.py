@@ -20,14 +20,11 @@ def vote_index(request):
     if request.method == 'POST':
         data = {}
         page = int(request.POST.get('page'))
-        print(page)
         candidate_list = paginator.get_page(page)
-        print(paginator.num_pages)
 
         if candidate_list.has_next():
             data['has_next'] = candidate_list.has_next()
             data['next_page_num'] = candidate_list.next_page_number()
-        print(data)
         data['html'] = loader.render_to_string('basketball/lazy_load_candidates.html',
                                                {'candidate_list': candidate_list})
         return JsonResponse(data)
@@ -37,7 +34,6 @@ def vote_index(request):
         candidate_list = paginator.get_page(1)
         votes_count = VoteRecord.objects.count()
 
-        print(votes_count)
         context = {'candidate_list': candidate_list,
                    'candidate_count': candidate_count,
                    'votes_count': votes_count,
