@@ -30,7 +30,7 @@ class Activity(models.Model):
 class Candidate(models.Model):
     name = models.CharField('姓名', max_length=20)
     mobile = models.CharField('手机号', max_length=11, blank=True)
-    description = models.TextField('自我简介', max_length=200)
+    description = models.TextField('自我简介', max_length=200, blank=True)
     avatar = ProcessedImageField(verbose_name='头像',
                                  upload_to='basketball_avatar',
                                  processors=[ResizeToFill(350, 350)],
