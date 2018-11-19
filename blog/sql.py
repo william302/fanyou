@@ -66,3 +66,12 @@ def find_user_is_voted(phone):
         row = cursor.fetchone()
     return row[0]
 
+
+def insert_user_message(phone, message):
+    current_time = datetime.datetime.now()
+    sql = '''INSERT INTO t_user_message(mobile, message, create_time, type) values(%s, %s, %s, 2) '''
+    args = (phone, message, current_time)
+    with connection.cursor() as cursor:
+        cursor.execute(sql, args)
+        connection.commit()
+    return

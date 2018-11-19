@@ -4,7 +4,7 @@ import re
 import json
 from urllib import parse
 import datetime
-from .sql import find_user, update_user, insert_user, find_merchant_user
+from .sql import find_user, update_user, insert_user, find_merchant_user, insert_user_message
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignupForm
@@ -130,6 +130,7 @@ def send_verify_code(request):
             request.session['phone'] = phone
             # request.session.set_expiry(60*60)
             request.session['time'] = session_time_stamp
+            insert_user_message(phone, content)
             return JsonResponse(data)
         else:
             # Error handling code...
