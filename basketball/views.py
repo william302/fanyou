@@ -14,7 +14,7 @@ import datetime
 
 @csrf_exempt
 def vote_index(request):
-    candidate_list = Candidate.objects.all().order_by('name')
+    candidate_list = Candidate.objects.all().order_by('-votes')
     candidate_count = candidate_list.count()
     paginator = Paginator(candidate_list, 5)
     if request.method == 'POST':
@@ -62,7 +62,7 @@ def search(request):
     if request.method == 'POST':
         data = {}
         name = request.POST.get('q')
-        candidate_list = Candidate.objects.filter(name=name)
+        candidate_list = Candidate.objects.filter(name__contains=name)
         if candidate_list.exists():
             data['result'] = loader.render_to_string('basketball/lazy_load_candidates.html',
                                                      {'candidate_list': candidate_list})
