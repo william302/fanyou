@@ -231,10 +231,10 @@
   </script>
 
     <script type="text/javascript">
-
+         var scroll_falg=true
          $(window).scroll(function(){
-      if  ($(window).scrollTop() === $(document).height() - $(window).height()){
-
+      if  ($(window).scrollTop() + $(window).height() >= $(document).height() && scroll_falg===true){
+           scroll_falg = false;
            var next_page = $('.next-page');
            if(next_page.length){
                 var page = next_page.val();
@@ -257,6 +257,7 @@
                 },
                 complete: function () {
                     $('.loading').hide();
+                    scroll_falg = true;
                 },
                 success: function (data) {
                     if (data.has_next){
