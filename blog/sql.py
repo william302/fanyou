@@ -12,9 +12,8 @@ def find_user(phone):
 
 
 def insert_user(phone, dealer_id):
-    current_time = datetime.datetime.now()
-    sql = '''INSERT INTO t_user_base(mobile, merchant_id,last_login_time, add_time) VALUES(%s, %s, %s, %s)'''
-    args = [phone, dealer_id, current_time, current_time]
+    sql = '''INSERT INTO t_user_base(mobile, merchant_id,last_login_time, add_time) VALUES(%s, %s, now(), now())'''
+    args = [phone, dealer_id]
     with connection.cursor() as cursor:
         cursor.execute(sql, args)
         connection.commit()
@@ -49,9 +48,8 @@ def find_user_voted_time(phone):
 
 
 def update_user_voted_time(phone):
-    sql = "UPDATE t_user_base SET voted_time = %s, is_voted=1 WHERE mobile = %s"
-    current_time = datetime.datetime.now()
-    args = (current_time, phone)
+    sql = "UPDATE t_user_base SET voted_time = now(), is_voted=1 WHERE mobile = %s"
+    args = (phone,)
     with connection.cursor() as cursor:
         cursor.execute(sql, args)
         connection.commit()
@@ -68,9 +66,8 @@ def find_user_is_voted(phone):
 
 
 def insert_user_message(phone, message):
-    current_time = datetime.datetime.now()
-    sql = '''INSERT INTO t_user_message(mobile, message, create_time, type) values(%s, %s, %s, 2) '''
-    args = (phone, message, current_time)
+    sql = '''INSERT INTO t_user_message(mobile, message, create_time, type) values(%s, %s, now(), 2) '''
+    args = (phone, message)
     with connection.cursor() as cursor:
         cursor.execute(sql, args)
         connection.commit()

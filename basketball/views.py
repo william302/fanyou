@@ -62,7 +62,11 @@ def search(request):
     if request.method == 'POST':
         data = {}
         name = request.POST.get('q')
-        candidate_list = Candidate.objects.filter(name__contains=name)
+        try:
+            int(name)
+            candidate_list = Candidate.objects.filter(id=name)
+        except ValueError as e:
+            candidate_list = Candidate.objects.filter(name__contains=name)
         if candidate_list.exists():
             data['result'] = loader.render_to_string('basketball/lazy_load_candidates.html',
                                                      {'candidate_list': candidate_list})
