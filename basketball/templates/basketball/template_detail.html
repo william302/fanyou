@@ -194,7 +194,7 @@
                     }
                     if (data.success_message){
                         alert(data.success_message,function () {
-                            window.location.reload()
+                            window.location.href=window.location.href+"?id="+10000*Math.random();
                         })
                     }
                 }

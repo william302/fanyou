@@ -441,3 +441,15 @@ button.voteForTa {
     display: block;
     color: #fff;
 }
+
+.lfy_number {
+    padding: 2%;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    background-color: #000;
+    opacity: 0.4;
+    color: #fff;
+    border-radius: 2px 2px 0 0;
+    font-size: 14px;
+}
