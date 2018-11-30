@@ -79,6 +79,11 @@ def search(request):
 def vote(request, candidate_id):
     if request.method == 'POST':
         data = {}
+        current_time = datetime.datetime.now()
+        end_time = datetime.datetime(2018, 12, 1)
+        if current_time > end_time:
+            data['error_message'] = '亲，活动已经结束了'
+            return JsonResponse(data)
         mobile = request.session.get('mobile_auth', None)
         is_voted = find_user_is_voted(mobile)
         if is_voted == 0:
