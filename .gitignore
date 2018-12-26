@@ -116,3 +116,9 @@ fabfile.py
 
 # media
 media/
+
+# docker
+docker-compose.prod.yml
+docker-compose.yml
+Dockerfile
+nginx/
