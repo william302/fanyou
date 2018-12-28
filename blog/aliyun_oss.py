@@ -3,6 +3,8 @@ import qrcode
 from decouple import config
 from django.conf import settings
 from PIL import Image
+import requests
+from io import BytesIO
 
 access_key = config('ALIYUN_ACCESS_KEY')
 access_key_secret = config('ALIYUN_ACCESS_SECRET')
@@ -22,7 +24,9 @@ def qrcode_upload(merchant_id):
     img = qr.make_image()
     img = img.convert("RGBA")
 
-    icon = Image.open(settings.MEDIA_ROOT + "/favicon-96x96.png")  # 这里是二维码中心的图片
+    # icon = Image.open(settings.MEDIA_ROOT + "/favicon-96x96.png")  # 这里是二维码中心的图片
+    response = requests.get("https://fanyou-static.oss-cn-hangzhou.aliyuncs.com/images/e_zu_favicon.ico")
+    icon = Image.open(BytesIO(response.content))
 
     img_w, img_h = img.size
     factor = 4
