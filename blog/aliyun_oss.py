@@ -55,7 +55,6 @@ def qrcode_upload(merchant_id):
     aliyun_url = http_oss_path % merchant_id
     # print('http status: {0}'.format(result.status))
     # print('request_id: {0}'.format(result.request_id))
-    # print('sss')
 
     return aliyun_url
 
