@@ -1,7 +1,12 @@
 import re
-
+import redis
 from django import forms;
 from django.core.exceptions import ValidationError
+
+r = redis.Redis(
+    host='localhost',
+    decode_responses=True
+)
 
 
 class SignupForm(forms.Form):
@@ -25,7 +30,8 @@ class SignupForm(forms.Form):
 
     def clean_verification_code(self):
         verify_code = self.cleaned_data['verification_code']
-        if verify_code == self.request.session.get('verify_code', None) and self.request.session.get('phone', None) == self.request.POST.get('phone'):
+        phone = self.cleaned_data['phone']
+        if verify_code == r.get(phone):
             pass
         else:
             raise ValidationError('验证码错误')

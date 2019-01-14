@@ -2,6 +2,7 @@ import hashlib
 import random
 import re
 import json
+import redis
 from urllib import parse
 import datetime
 from .sql import find_user, update_user, insert_user, find_merchant_user, insert_user_message
@@ -11,53 +12,19 @@ from .forms import SignupForm
 import requests
 from .models import Merchant
 from django.views.decorators.csrf import csrf_exempt
+from decouple import config
+from utils import get_client_ip
 from django.views.generic import View
 # Create your views here.
 
+r = redis.Redis(
+    host='localhost',
+    decode_responses=True
+)
+
 
 def index(request):
-    # rows = find_merchant_user()
-    # print(rows)
-    # print(type(rows))
     return render(request, 'blog/index.html')
-
-
-# @csrf_exempt
-# def signup(request):
-#     if request.method == 'POST':
-#         form = SignupForm(request.POST)
-#         if form.is_valid():
-#             dealer_id = request.session.get('dealer_id', None)
-#             # if dealer_id == 'None':
-#             #     dealer_id = None
-#             phone = form.cleaned_data['phone']
-#             verify_code = form.cleaned_data['verification_code']
-#
-#             session_verify_code = request.session.get('verify_code', None)
-#             if verify_code == session_verify_code:
-#                 try:
-#                     del request.session['verify_code']
-#                 except KeyError:
-#                     pass
-#                 row = find_user(phone)
-#                 if row:
-#                     if dealer_id is None:
-#                         return redirect('signup_success')
-#                     update_user(phone, dealer_id)
-#                     return redirect('signup_success')
-#                 else:
-#                     insert_user(phone, dealer_id)
-#                     return redirect('signup_success')
-#             else:
-#                 error = "验证码错误"
-#                 return render(request, 'blog/signup.html', {'form': form,
-#                                                             'error': error})
-#     else:
-#         dealer_id = request.GET.get('dealer', None)
-#         request.session['dealer_id'] = dealer_id
-#         form = SignupForm()
-#
-#     return render(request, 'blog/signup.html', {'form': form})
 
 
 @csrf_exempt
@@ -65,11 +32,14 @@ def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST, request=request)
         if form.is_valid():
-            try:
-                del request.session['verify_code']
-            except KeyError:
-                pass
-            dealer_id = request.session.get('dealer_id', None)
+            # try:
+            #     del request.session['verify_code']
+            # except KeyError:
+            #     pass
+            # dealer_id = request.session.get('dealer_id', None)
+
+            # dealer_id = r.get(ip)
+            dealer_id = request.GET.get('dealer', None)
             phone = form.cleaned_data['phone']
             row = find_user(phone)
             if row:
@@ -80,8 +50,6 @@ def signup(request):
                 insert_user(phone, dealer_id)
                 return redirect('signup_success')
     else:
-        dealer_id = request.GET.get('dealer', None)
-        request.session['dealer_id'] = dealer_id
         form = SignupForm()
 
     return render(request, 'blog/signup.html', {'form': form})
@@ -89,17 +57,22 @@ def signup(request):
 
 def send_verify_code(request):
     data = {}
-    current_time = int(datetime.datetime.now().strftime('%y%m%d%H%M%S'))
-    interval_time = current_time - request.session.get('time', 171011091632)
-    send_flag = interval_time < 60
-    if send_flag:
-        data['error_message'] = "重新发送需要%ds时间" % (60-interval_time)
-        return JsonResponse(data)
+    # current_time = int(datetime.datetime.now().strftime('%y%m%d%H%M%S'))
+    # sent_time = r.get('time')
+    # if not sent_time:
+    #     sent_time = 171011091632
+    # print(sent_time)
+    # print(type(sent_time))
+    # interval_time = current_time - sent_time
+    # send_flag = interval_time < 60
+    # if send_flag:
+    #     data['error_message'] = "重新发送需要%ds时间" % (60-interval_time)
+    #     return JsonResponse(data)
     send_url = 'http://175.25.18.221:8087/sms/v2/std/single_send'
-    userid = 'JA1260'
-    password = '092902'
+    userid = config('SMS_USERID')
+    password = config('SMS_PASSWORD')
     sms_code = "%06d" % random.randint(0, 999999)
-    content = '感谢注册「e租」，验证码打死不要告诉别人哦！验证码：%s' % sms_code
+    content = '尊敬的用户，你的验证码是：%s，请在10分钟内输入，请勿告诉其他人' % sms_code
     time = datetime.datetime.now()
     # 生成时间戳，格式为：月月日日时时分分秒秒
     time_stamp = time.strftime('%m%d%H%M%S')
@@ -126,10 +99,12 @@ def send_verify_code(request):
         response = requests.post(send_url, data=json_query, headers=headers)
         if response.status_code == 200:
             data['success_message'] = '已发送'
-            request.session['verify_code'] = sms_code
-            request.session['phone'] = phone
+            # request.session['verify_code'] = sms_code
+            # request.session['phone'] = phone
             # request.session.set_expiry(60*60)
-            request.session['time'] = session_time_stamp
+            # request.session['time'] = session_time_stamp
+
+            r.set(phone, sms_code,  ex=60*10)
             insert_user_message(phone, content)
             return JsonResponse(data)
         else:
