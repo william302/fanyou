@@ -25,7 +25,7 @@ def qrcode_upload(merchant_id):
     img = img.convert("RGBA")
 
     # icon = Image.open(settings.MEDIA_ROOT + "/favicon-96x96.png")  # 这里是二维码中心的图片
-    response = requests.get("https://fanyou-static.oss-cn-hangzhou.aliyuncs.com/images/e_zu_favicon.ico")
+    response = requests.get("https://fanyou-static.oss-cn-hangzhou.aliyuncs.com/images/ms-icon-70x70.png")
     icon = Image.open(BytesIO(response.content))
 
     img_w, img_h = img.size
