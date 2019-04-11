@@ -55,19 +55,9 @@ def signup(request):
     return render(request, 'blog/signup.html', {'form': form})
 
 
+@csrf_exempt
 def send_verify_code(request):
     data = {}
-    # current_time = int(datetime.datetime.now().strftime('%y%m%d%H%M%S'))
-    # sent_time = r.get('time')
-    # if not sent_time:
-    #     sent_time = 171011091632
-    # print(sent_time)
-    # print(type(sent_time))
-    # interval_time = current_time - sent_time
-    # send_flag = interval_time < 60
-    # if send_flag:
-    #     data['error_message'] = "重新发送需要%ds时间" % (60-interval_time)
-    #     return JsonResponse(data)
     send_url = 'http://175.25.18.221:8087/sms/v2/std/single_send'
     userid = config('SMS_USERID')
     password = config('SMS_PASSWORD')
@@ -81,9 +71,10 @@ def send_verify_code(request):
     # 报文密码为：（用户名 + 固定字符串 + 密码 + 时间戳）之后用md5加密
     combine_password = userid + fixed_string + password + time_stamp
     md5_password = hashlib.md5(combine_password.encode('UTF-8')).hexdigest()
-    phone = request.GET.get('phone')
+    phone = request.POST.get('phone')
     urlencode_content = parse.quote(content, encoding='gb2312')
     phone_pat = re.compile('^(13\d|14[5|7]|15\d|166|17\d|18\d)\d{8}$')
+    phone_pat = re.compile('^\d{11}$')
     res = re.search(phone_pat, phone)
     if res:
         query ={
@@ -99,11 +90,6 @@ def send_verify_code(request):
         response = requests.post(send_url, data=json_query, headers=headers)
         if response.status_code == 200:
             data['success_message'] = '已发送'
-            # request.session['verify_code'] = sms_code
-            # request.session['phone'] = phone
-            # request.session.set_expiry(60*60)
-            # request.session['time'] = session_time_stamp
-
             r.set(phone, sms_code,  ex=60*10)
             insert_user_message(phone, content)
             return JsonResponse(data)

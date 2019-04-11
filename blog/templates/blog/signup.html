@@ -47,6 +47,7 @@
         $('#forcode').click(function () {
             $.ajax({
                 url: '{% url "send_verify_code" %}',
+                method: "POST",
                 data : {
                     'phone' : $('#id_phone').val()
                 },
