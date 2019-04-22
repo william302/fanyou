@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('basketball/', include('basketball.urls')),
-    path('wechat/', include('wechat.urls'))
+    path('wechat/', include('wechat.urls')),
+    path('riskmodel/', include('riskmodel.urls'))
 ]
 
 if settings.DEBUG:

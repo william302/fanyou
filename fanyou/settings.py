@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'imagekit',
-    'wechatpy'
+    'wechatpy',
+    'riskmodel'
 ]
 
 MIDDLEWARE = [
