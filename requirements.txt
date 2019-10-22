@@ -20,7 +20,7 @@ optionaldict==0.1.1
 oss2==2.5.0
 paramiko==2.4.2
 pilkit==2.0
-Pillow==5.3.0
+Pillow==6.2.0
 pyasn1==0.4.4
 pycparser==2.19
 pycryptodome==3.6.6
