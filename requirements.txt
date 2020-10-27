@@ -5,7 +5,7 @@ bcrypt==3.1.4
 certifi==2018.8.24
 chardet==3.0.4
 crcmod==1.7
-cryptography==2.3.1
+cryptography==3.2
 dj-database-url==0.5.0
 Django==2.1.2
 django-appconf==1.0.2
